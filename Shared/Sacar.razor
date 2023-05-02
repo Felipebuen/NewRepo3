@@ -1,0 +1,34 @@
+﻿@inject DadosCarteiras dados
+<h3>Dados para Saque</h3>
+<br>
+<br>
+<p>Valor de Saque:</p>
+<input type="number" @bind="valor" />
+<button @onclick="sacar">Confirmar Saque </button>
+
+@if (saqueok is not null)
+{
+    @if (saqueok == true)
+    {
+        <h1>Saque Realizado com sucesso!</h1>
+    }
+    else
+    {
+        <h1>Erro! não foi possivel realizar está operação</h1>
+    }
+}
+
+@code {
+    [Parameter]
+    public Carteira? Conta { get; set; }
+
+    private bool? saqueok = null;
+    private double valor;
+
+    private void sacar()
+    {
+        saqueok = Conta.Sacar(valor,dados.DataDoSistema);
+    }
+
+
+}

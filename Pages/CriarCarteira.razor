@@ -1,0 +1,46 @@
+﻿@page "/cadastro"
+@inject DadosCarteiras  dados
+
+<PageTitle>Cadastrar Carteira</PageTitle>
+
+<h5>Nome:</h5>
+
+<input type="text" @bind=nome/>
+
+<h5>CPF:</h5>
+<input type="text" @bind=CPF />
+
+<h5>Valor Deposito Inicial:</h5>
+<input type="text" @bind=valor/>
+
+<br><br>
+<button class="btn btn-primary" @onclick="CriarConta">
+    Criar Conta</button>
+
+    <br><br>
+    <h1>@mensagem</h1>
+
+
+@code {
+    private string nome;
+    private double valor;
+    private string mensagem="";
+    private string CPF;
+    public double LimiteConta;
+
+    private void CriarConta()
+    {
+        Carteira novaConta = new Carteira();
+        novaConta.Dono = nome;
+        novaConta.Depositar(valor);
+        novaConta.CPF = CPF;
+        novaConta.LimiteConta = valor * 0.1;
+        dados.ListaDados.Add(novaConta);
+        mensagem = $"Carteira Criada com Sucesso ({nome} Saldo:{valor} CPF: {CPF})";
+        mensagem += $"{Environment.NewLine} Carteira de Número ({novaConta.ID})";
+        mensagem += $"{Environment.NewLine} O limite da conta é: {novaConta.LimiteConta}";
+        nome = "";
+        valor = 0;
+        CPF = "";
+    }
+}

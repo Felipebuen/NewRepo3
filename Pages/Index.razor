@@ -1,0 +1,38 @@
+﻿@page "/"
+@inject DadosCarteiras dados
+<p>Data do Sistema:</p>
+<br>
+<p>@dados.DataDoSistema</p>
+
+<br><br>
+<p>Atualizar Data</p>
+
+<input type="datetime" @bind=dados.DataDoSistema></input>
+
+<br>
+<button @onclick="@(() => CobrarTarifas())" >Cobrar Tarifas (Todas as Contas) </button>
+
+<br /><br />
+<span id="msgSucesso">@Sucesso</span>
+
+@code{
+	private string Sucesso = "";
+
+	private bool JaCobrada = false;
+
+	public void CobrarTarifas()
+	{
+		if(JaCobrada)
+		{
+			Sucesso = "tarifa já foi cobrada esse mes!";
+			return;
+		}
+		else
+		{
+			dados.CobrarCarteiras();
+			Sucesso = "tarifa cobrada com sucesso!";
+			JaCobrada = true;
+		}
+	}
+
+}
